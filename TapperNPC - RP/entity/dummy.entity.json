@@ -1,0 +1,60 @@
+{
+	"format_version": "1.10.0",
+	"minecraft:client_entity": {
+		"description": {
+			"identifier": "tappernpc:dummy",
+			"materials": {
+				"default": "entity_alphatest",
+				"cape": "entity_alphatest"
+			},
+			"textures": {
+                "cape": "textures/entity/cape_invisible",
+                "cape_1": "textures/entity/tappernpc/cape_1",
+                "cape_2": "textures/entity/tappernpc/cape_2",
+                "cape_3": "textures/entity/tappernpc/cape_3",
+                "cape_4": "textures/entity/tappernpc/cape_4",
+                "cape_5": "textures/entity/tappernpc/cape_5",
+                "cape_6": "textures/entity/tappernpc/cape_6",
+                "cape_7": "textures/entity/tappernpc/cape_7",
+                "cape_8": "textures/entity/tappernpc/cape_8",
+                "cape_9": "textures/entity/tappernpc/cape_9",
+                "cape_10": "textures/entity/tappernpc/cape_10",
+                "cape_11": "textures/entity/tappernpc/cape_11",
+				"skin_1": "textures/entity/tappernpc/skin_1",
+                "skin_2": "textures/entity/tappernpc/skin_2",
+                "skin_3": "textures/entity/tappernpc/skin_3",
+                "skin_4": "textures/entity/tappernpc/skin_4",
+                "skin_5": "textures/entity/tappernpc/skin_5",
+                "skin_6": "textures/entity/tappernpc/skin_6",
+                "skin_7": "textures/entity/tappernpc/skin_7",
+                "skin_8": "textures/entity/tappernpc/skin_8",
+                "skin_9": "textures/entity/tappernpc/skin_9",
+                "skin_10": "textures/entity/tappernpc/skin_10"
+			},
+			"geometry": {
+				"default": "geometry.tappernpc.locator",
+				"wide": "geometry.tappernpc.wide",
+				"slim": "geometry.tappernpc.slim",
+                "cape": "geometry.cape"
+			},
+			"scripts": {
+				"animate": [
+					"bob",
+					"look_at_target",
+                    "cape"
+				]
+			},
+			"animations": {
+				"bob": "animation.humanoid.bob",
+				"look_at_target": "animation.common.look_at_target",
+                "cape": "animation.player.cape"
+			},
+			"render_controllers": [
+				"controller.render.locator",
+                "controller.render.dummy",
+                "controller.render.dummy.cape"
+			],
+            "enable_attachables": true
+		}
+	}
+}
