@@ -1,0 +1,52 @@
+{
+	"format_version": 2,
+	"header": {
+		"name": "TapperNPC",
+		"description": "Added an npc that runs commands when interacted. \n§bhttps://discord.gg/naRZ8tE3yC §afor more updates and information!",
+		"uuid": "127ce913-7129-477a-b9a1-260f5bbe5415",
+		"version": [
+			1,
+			0,
+			0
+		],
+		"min_engine_version": [
+			1,
+			21,
+			90
+		]
+	},
+	"modules": [
+		{
+			"type": "data",
+			"uuid": "51ca6d39-e8ca-4597-b61e-17566d28ae53",
+			"version": "1.0.0"
+		},
+		{
+			"description": "scripts",
+			"uuid": "a148902d-3397-4a3a-873f-b49a22741792",
+			"version": "1.1.0-beta",
+			"type": "script",
+			"language": "javascript",
+			"entry": "scripts/index.js"
+		}
+	],
+	"dependencies": [
+		{
+            "module_name": "@minecraft/server",
+            "version": "2.2.0-beta"
+        },
+		{
+            "module_name": "@minecraft/server-ui",
+            "version": "2.1.0-beta"
+        },
+		{
+			"uuid": "e2f9dbe0-cdff-49eb-945a-e0732ed175a8",
+			"version": [ 1, 0, 0 ]
+		}
+	],
+    "metadata": {
+        "authors": [ "ItzCandra23 (github.com/ItzCandra23)" ],
+        "license": "MIT License",
+        "url": "https://github.com/ItzCandra23/TapperNPC"
+    }
+}
