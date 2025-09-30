@@ -8,119 +8,51 @@
 			"is_experimental": false
 		},
 		"component_groups": {
-			"tappernpc:model_wide": {
+			"model_wide": {
+				"minecraft:scale": {
+					"value": 1
+				},
 				"minecraft:variant": {
 					"value": 0
 				}
 			},
-			"tappernpc:model_slim": {
+			"model_slim": {
+				"minecraft:scale": {
+					"value": 1
+				},
 				"minecraft:variant": {
 					"value": 1
 				}
 			},
-			"tappernpc:cape_0": {
+			"model_wide_baby": {
+				"minecraft:scale": {
+					"value": 0.5
+				},
+				"minecraft:variant": {
+					"value": 2
+				}
+			},
+			"model_slim_baby": {
+				"minecraft:scale": {
+					"value": 0.5
+				},
+				"minecraft:variant": {
+					"value": 3
+				}
+			},
+			"cape_none": {
 				"minecraft:mark_variant": {
 					"value": 0
 				}
 			},
-			"tappernpc:cape_1": {
-				"minecraft:mark_variant": {
-					"value": 1
-				}
-			},
-			"tappernpc:cape_2": {
-				"minecraft:mark_variant": {
-					"value": 2
-				}
-			},
-			"tappernpc:cape_3": {
-				"minecraft:mark_variant": {
-					"value": 3
-				}
-			},
-			"tappernpc:cape_4": {
-				"minecraft:mark_variant": {
-					"value": 4
-				}
-			},
-			"tappernpc:cape_5": {
-				"minecraft:mark_variant": {
-					"value": 5
-				}
-			},
-			"tappernpc:cape_6": {
-				"minecraft:mark_variant": {
-					"value": 6
-				}
-			},
-			"tappernpc:cape_7": {
-				"minecraft:mark_variant": {
-					"value": 7
-				}
-			},
-			"tappernpc:cape_8": {
-				"minecraft:mark_variant": {
-					"value": 8
-				}
-			},
-			"tappernpc:cape_9": {
-				"minecraft:mark_variant": {
-					"value": 9
-				}
-			},
-			"tappernpc:cape_10": {
-				"minecraft:mark_variant": {
-					"value": 10
-				}
-			},
-			"tappernpc:skin_0": {
+			"skin_steve": {
 				"minecraft:skin_id": {
 					"value": 0
 				}
 			},
-			"tappernpc:skin_1": {
+			"skin_alex": {
 				"minecraft:skin_id": {
 					"value": 1
-				}
-			},
-			"tappernpc:skin_2": {
-				"minecraft:skin_id": {
-					"value": 2
-				}
-			},
-			"tappernpc:skin_3": {
-				"minecraft:skin_id": {
-					"value": 3
-				}
-			},
-			"tappernpc:skin_4": {
-				"minecraft:skin_id": {
-					"value": 4
-				}
-			},
-			"tappernpc:skin_5": {
-				"minecraft:skin_id": {
-					"value": 5
-				}
-			},
-			"tappernpc:skin_6": {
-				"minecraft:skin_id": {
-					"value": 6
-				}
-			},
-			"tappernpc:skin_7": {
-				"minecraft:skin_id": {
-					"value": 7
-				}
-			},
-			"tappernpc:skin_8": {
-				"minecraft:skin_id": {
-					"value": 8
-				}
-			},
-			"tappernpc:skin_9": {
-				"minecraft:skin_id": {
-					"value": 9
 				}
 			}
 		},
@@ -181,73 +113,25 @@
 		},
 		"events": {
 			"model_wide": {
-				"add": { "component_groups": [ "tappernpc:model_wide" ] }
+				"add": { "component_groups": [ "model_wide" ] }
 			},
 			"model_slim": {
-				"add": { "component_groups": [ "tappernpc:model_slim" ] }
+				"add": { "component_groups": [ "model_slim" ] }
 			},
-			"cape_0": {
-				"add": { "component_groups": [ "tappernpc:cape_0" ] }
+			"model_wide_baby": {
+				"add": { "component_groups": [ "model_wide_baby" ] }
 			},
-			"cape_1": {
-				"add": { "component_groups": [ "tappernpc:cape_1" ] }
+			"model_slim_baby": {
+				"add": { "component_groups": [ "model_slim_baby" ] }
 			},
-			"cape_2": {
-				"add": { "component_groups": [ "tappernpc:cape_2" ] }
+			"cape_none": {
+				"add": { "component_groups": [ "cape_none" ] }
 			},
-			"cape_3": {
-				"add": { "component_groups": [ "tappernpc:cape_3" ] }
+			"skin_steve": {
+				"add": { "component_groups": [ "skin_steve" ] }
 			},
-			"cape_4": {
-				"add": { "component_groups": [ "tappernpc:cape_4" ] }
-			},
-			"cape_5": {
-				"add": { "component_groups": [ "tappernpc:cape_5" ] }
-			},
-			"cape_6": {
-				"add": { "component_groups": [ "tappernpc:cape_6" ] }
-			},
-			"cape_7": {
-				"add": { "component_groups": [ "tappernpc:cape_7" ] }
-			},
-			"cape_8": {
-				"add": { "component_groups": [ "tappernpc:cape_8" ] }
-			},
-			"cape_9": {
-				"add": { "component_groups": [ "tappernpc:cape_9" ] }
-			},
-			"cape_10": {
-				"add": { "component_groups": [ "tappernpc:cape_10" ] }
-			},
-			"skin_0": {
-				"add": { "component_groups": [ "tappernpc:skin_0" ] }
-			},
-			"skin_1": {
-				"add": { "component_groups": [ "tappernpc:skin_1" ] }
-			},
-			"skin_2": {
-				"add": { "component_groups": [ "tappernpc:skin_2" ] }
-			},
-			"skin_3": {
-				"add": { "component_groups": [ "tappernpc:skin_3" ] }
-			},
-			"skin_4": {
-				"add": { "component_groups": [ "tappernpc:skin_4" ] }
-			},
-			"skin_5": {
-				"add": { "component_groups": [ "tappernpc:skin_5" ] }
-			},
-			"skin_6": {
-				"add": { "component_groups": [ "tappernpc:skin_6" ] }
-			},
-			"skin_7": {
-				"add": { "component_groups": [ "tappernpc:skin_7" ] }
-			},
-			"skin_8": {
-				"add": { "component_groups": [ "tappernpc:skin_8" ] }
-			},
-			"skin_9": {
-				"add": { "component_groups": [ "tappernpc:skin_9" ] }
+			"skin_alex": {
+				"add": { "component_groups": [ "skin_alex" ] }
 			}
 		}
 	}

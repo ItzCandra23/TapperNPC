@@ -24,6 +24,24 @@
 
 ---
 
+## Changelogs
+
+- ## TapperNPC v1.0.0
+
+    First releases
+
+- ## TapperNPC v1.1.0
+
+    Add new models and more optimazed
+
+  ### What's Changed
+
+  - Add new baby models
+  - Add new command alias `/spawnnpc`
+  - Auto open ui after spawn npc
+
+---
+
 ## 📜 Project
 
 Created by **ItzCandra23**

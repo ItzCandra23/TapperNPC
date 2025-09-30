@@ -15,6 +15,7 @@ var TapperNPC;
                 TapperNPC.setNameTag(entity, options.nameTag);
             if (options?.actions?.length)
                 TapperNPC.setActions(entity, options.actions);
+            return entity;
         }
         catch (err) {
             throw new Error("Failed to spawn!");

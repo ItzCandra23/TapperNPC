@@ -5,7 +5,7 @@
 		"description": "Added an npc that runs commands when interacted. \n§bhttps://discord.gg/naRZ8tE3yC §afor more updates and information!",
 		"uuid": "127ce913-7129-477a-b9a1-260f5bbe5415",
 		"version": [
-			1,
+			2,
 			0,
 			0
 		],
@@ -41,7 +41,7 @@
         },
 		{
 			"uuid": "e2f9dbe0-cdff-49eb-945a-e0732ed175a8",
-			"version": [ 1, 0, 0 ]
+			"version": [ 2, 0, 0 ]
 		}
 	],
     "metadata": {

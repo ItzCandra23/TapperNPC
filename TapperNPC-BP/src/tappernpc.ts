@@ -22,7 +22,7 @@ namespace TapperNPC {
             skinId?: string;
             actions?: TapperAction[];
         }
-    ): void {
+    ): Entity {
         try {
             const entity = dimension.spawnEntity(entityId, location, {
                 spawnEvent: options?.skinId
@@ -30,6 +30,8 @@ namespace TapperNPC {
 
             if (options?.nameTag?.trim()) TapperNPC.setNameTag(entity, options.nameTag);
             if (options?.actions?.length) TapperNPC.setActions(entity, options.actions);
+
+            return entity;
         } catch(err) {
             throw new Error("Failed to spawn!");
         }

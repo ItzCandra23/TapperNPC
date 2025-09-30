@@ -4,7 +4,7 @@
         "controller.render.dummy.cape": {
             "arrays": {
                 "textures": {
-                    "Array.capes": ["Texture.cape", "Texture.cape_1", "Texture.cape_2", "Texture.cape_3", "Texture.cape_4", "Texture.cape_5", "Texture.cape_6", "Texture.cape_7", "Texture.cape_8", "Texture.cape_9", "Texture.cape_10", "Texture.cape_11"]
+                    "Array.capes": [ "Texture.cape_none" ]
                 }
             },
             "rebuild_animation_matrices": true,
@@ -23,15 +23,15 @@
             "materials": [{
                 "*": "Material.default"
             }],
-            "textures": ["Texture.skin_5"]
+            "textures": ["Texture.skin_steve"]
         },
         "controller.render.dummy": {
             "arrays": {
                 "geometries": {
-                    "Array.geos": ["Geometry.wide", "Geometry.slim"]
+                    "Array.geos": ["Geometry.wide", "Geometry.slim", "Geometry.wide_baby", "Geometry.slim_baby"]
                 },
                 "textures": {
-                    "Array.skins": ["Texture.skin_1", "Texture.skin_2", "Texture.skin_3", "Texture.skin_4", "Texture.skin_5", "Texture.skin_6", "Texture.skin_7", "Texture.skin_8", "Texture.skin_9", "Texture.skin_10"]
+                    "Array.skins": ["Texture.skin_steve", "Texture.skin_alex"]
                 }
             },
             "geometry": "Array.geos[query.variant]",
