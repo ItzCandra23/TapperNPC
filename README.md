@@ -40,6 +40,14 @@
   - Add new command alias `/spawnnpc`
   - Auto open ui after spawn npc
 
+- ## TapperNPC v1.2.0
+
+    Updated to the new bedrock version 1.21.111
+
+  ### What's Changed
+
+  - Support 1.21.111
+
 ---
 
 ## 📜 Project

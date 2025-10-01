@@ -24,7 +24,7 @@ namespace TapperNPC {
         }
     ): Entity {
         try {
-            const entity = dimension.spawnEntity(entityId, location, {
+            const entity = dimension.spawnEntity(entityId as any, location, {
                 spawnEvent: options?.skinId
             });
 
