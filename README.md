@@ -48,6 +48,16 @@
 
   - Support 1.21.111
 
+- ## TapperNPC v1.3.0
+
+    Add more options for npc
+
+  ### What's Changed
+
+  - Add `equipment` option
+  - Add `look_at_player` option
+  - Add `rotation` option
+
 ---
 
 ## 📜 Project
