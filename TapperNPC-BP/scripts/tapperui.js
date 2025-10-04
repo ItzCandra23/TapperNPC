@@ -1,3 +1,4 @@
+import { EquipmentSlot } from "@minecraft/server";
 import { ActionFormData, ModalFormData } from "@minecraft/server-ui";
 import TapperNPC from "./tappernpc";
 var TapperUI;
@@ -5,13 +6,17 @@ var TapperUI;
     function manage(entity, player, callback) {
         if (entity.typeId !== TapperNPC.entityId)
             return callback && callback();
+        const isLookAtPlayer = TapperNPC.isLookAtPlayer(entity);
         const form = new ActionFormData();
         form.title("§6TapperNPC");
         form.button("§dManage Actions", "textures/ui/ImpulseSquare");
         form.button("§dEdit Nametag", "textures/ui/hanging_sign_jungle");
+        form.button("§dManage Equipment", "textures/ui/sidebar_icons/addon");
         form.button("§dChange Skin", "textures/ui/sidebar_icons/classic_skins");
         form.button("§dChange Cape", "textures/ui/sidebar_icons/capes");
         form.button("§dChange Model", "textures/ui/sidebar_icons/dr_body");
+        form.button(isLookAtPlayer ? "§dDont look at player" : "§dLook at player", "textures/gui/newgui/mob_effects/blindness_effect");
+        form.button("§dRotation", "textures/ui/Rotate");
         form.button("§4DELETE", "textures/ui/trash");
         form.button(`§8[ §c${callback ? `BACK` : `CLOSE`} §8]`, "textures/blocks/barrier");
         form.show(player).then((res) => {
@@ -22,14 +27,22 @@ var TapperUI;
             if (res.selection === 1)
                 return editNameTag(entity, player, () => manage(entity, player, callback));
             if (res.selection === 2)
-                return changeSkin(entity, player, () => manage(entity, player, callback));
+                return manageEquipment(entity, player, () => manage(entity, player, callback));
             if (res.selection === 3)
-                return changeCape(entity, player, () => manage(entity, player, callback));
+                return changeSkin(entity, player, () => manage(entity, player, callback));
             if (res.selection === 4)
-                return changeModel(entity, player, () => manage(entity, player, callback));
+                return changeCape(entity, player, () => manage(entity, player, callback));
             if (res.selection === 5)
+                return changeModel(entity, player, () => manage(entity, player, callback));
+            if (res.selection === 6) {
+                TapperNPC.setLookAtPlayer(entity);
+                return manage(entity, player, callback);
+            }
+            if (res.selection === 7)
+                return setRotation(entity, player, () => manage(entity, player, callback));
+            if (res.selection === 8)
                 return deleteNPC(entity, player, () => manage(entity, player, callback));
-            if (res.selection === 6 && callback)
+            if (res.selection === 9 && callback)
                 return callback();
         });
     }
@@ -54,11 +67,63 @@ var TapperUI;
         });
     }
     TapperUI.deleteNPC = deleteNPC;
+    async function setRotation(entity, player, callback) {
+        const rotation = TapperNPC.getRotation(entity);
+        const form = new ModalFormData();
+        form.title('§aTapperNPC: §dRotation');
+        form.slider("Rotation", -180, 180, { defaultValue: rotation });
+        form.show(player).then((res) => {
+            if (res.formValues === undefined)
+                return callback && callback();
+            const value = res.formValues[0] ?? 0;
+            try {
+                TapperNPC.setRotation(entity, value);
+                callback && callback();
+            }
+            catch (err) {
+                player.sendMessage("§c" + err.message);
+            }
+        });
+    }
+    TapperUI.setRotation = setRotation;
+    async function manageEquipment(entity, player, callback) {
+        const slots = Object.keys(EquipmentSlot);
+        const selected = await ActionSearchForm('§aTapperNPC: §dEquipment', slots, player);
+        if (selected < 0)
+            return callback && callback();
+        try {
+            const selectedSlot = slots[selected];
+            setEquipment(entity, EquipmentSlot[selectedSlot], player, () => manageEquipment(entity, player, callback));
+        }
+        catch (err) {
+            callback && callback();
+        }
+    }
+    TapperUI.manageEquipment = manageEquipment;
+    async function setEquipment(entity, slot, player, callback) {
+        const defaultValue = TapperNPC.getEquipmentItemId(entity, slot);
+        const form = new ModalFormData();
+        form.title(`§aTapperNPC: §d${EquipmentSlot[slot]}`);
+        form.textField("Item Id", "minecraft:air", { defaultValue });
+        form.show(player).then((res) => {
+            if (res.formValues === undefined)
+                return callback && callback();
+            const value = res.formValues[0] ?? "";
+            try {
+                TapperNPC.setEquipmentItemId(entity, slot, value);
+                callback && callback();
+            }
+            catch (err) {
+                player.sendMessage("§c" + err.message);
+            }
+        });
+    }
+    TapperUI.setEquipment = setEquipment;
     function editNameTag(entity, player, callback) {
         if (entity.typeId !== TapperNPC.entityId)
             return;
         const form = new ModalFormData();
-        form.title("§6TapperNPC: §eNameTag");
+        form.title("§aTapperNPC: §eNameTag");
         form.textField("NameTag", "Shop NPC", {
             defaultValue: TapperNPC.getNameTag(entity),
             tooltip: "The display nametag of npc. Empty the nametag for hide",
@@ -104,7 +169,7 @@ var TapperUI;
     TapperUI.ActionSearchForm = ActionSearchForm;
     async function SearchForm(player, defaultValue) {
         const form = new ModalFormData();
-        form.title("§gSearching Form");
+        form.title("§dSearching Form");
         form.textField("Search:", "Search Keywords", { defaultValue });
         try {
             const result = await form.show(player);
@@ -120,7 +185,7 @@ var TapperUI;
     TapperUI.SearchForm = SearchForm;
     async function changeSkin(entity, player, callback) {
         const skins = Object.values(TapperNPC.skins);
-        const selected = await ActionSearchForm('§6TapperNPC: §dChange Skin', skins, player);
+        const selected = await ActionSearchForm('§aTapperNPC: §dChange Skin', skins, player);
         if (selected < 0)
             return callback && callback();
         try {
@@ -134,7 +199,7 @@ var TapperUI;
     TapperUI.changeSkin = changeSkin;
     async function changeCape(entity, player, callback) {
         const capes = Object.values(TapperNPC.capes);
-        const selected = await ActionSearchForm('§6TapperNPC: §dChange Cape', capes, player);
+        const selected = await ActionSearchForm('§aTapperNPC: §dChange Cape', capes, player);
         if (selected < 0)
             return callback && callback();
         try {
@@ -148,7 +213,7 @@ var TapperUI;
     TapperUI.changeCape = changeCape;
     async function changeModel(entity, player, callback) {
         const models = Object.values(TapperNPC.models);
-        const selected = await ActionSearchForm('§6TapperNPC: §dChange Model', models, player);
+        const selected = await ActionSearchForm('§aTapperNPC: §dChange Model', models, player);
         if (selected < 0)
             return callback && callback();
         try {
@@ -165,7 +230,7 @@ var TapperUI;
         function main(entity, player, callback) {
             const actions = TapperNPC.getActions(entity);
             const form = new ActionFormData();
-            form.title('§6TapperNPC: §dActions');
+            form.title('§aTapperNPC: §dActions');
             form.body(`Commands that will be executed when used\nLength: ${actions.length}`);
             for (const [index, action] of actions.entries()) {
                 const text = `§a${index}: §b${action.command.substring(0, 15)}${action.command.length > 15 ? '...' : ''}\n§r§d${action.actor}: §2${!action.conditional ? '§6un' : ''}conditional`;
@@ -184,7 +249,7 @@ var TapperUI;
         Actions.main = main;
         async function ActionForm(player, options) {
             const form = new ModalFormData();
-            form.title('§6TapperNPC: §dActionForm');
+            form.title('§aTapperNPC: §dActionForm');
             form.dropdown("Actor", ["Player", "Server"], { defaultValueIndex: options?.actor === "server" ? 1 : 0 });
             form.textField("Command", "give @s apple", { defaultValue: options?.command, tooltip: "Minecraft command to be run. You can use {player} to replace the player name." });
             form.toggle("Conditional", { defaultValue: options?.conditional, tooltip: "Only run if the previous command was successful. Does not affect for first command." });
@@ -225,7 +290,7 @@ var TapperUI;
                 return callback && callback();
             const form = new ActionFormData();
             const description = `TapperNPC:\n - "${TapperNPC.getNameTag(entity)}§r"\n\nIndex:\n - §a${targetIndex}§r\nActor:\n - §d${action.actor}§r\nCommand:\n - "${action.command}§r"\nConditional:\n - §a${action.conditional}§r\n\n`;
-            form.title('§6TapperNPC: §dAction');
+            form.title('§aTapperNPC: §dAction');
             form.body(description);
             form.button('§dEdit Action', 'textures/ui/editIcon');
             form.button('§dMove Up', 'textures/ui/up_arrow');
@@ -284,7 +349,7 @@ var TapperUI;
                 return callback && callback();
             const form = new ActionFormData();
             const description = `§cAre you sure wanna delete this action?§r\n\nTapperNPC:\n - "${TapperNPC.getNameTag(entity)}§r"\n\nIndex:\n - §a${targetIndex}§r\nActor:\n - §d${action.actor}§r\nCommand:\n - "${action.command}§r"\nConditional:\n - §a${action.conditional}§r\n\n`;
-            form.title('§6TapperNPC: §cDELETE');
+            form.title('§aTapperNPC: §cDELETE');
             form.body(description);
             form.button('§4DELETE', 'textures/ui/trash');
             form.button(`§8[ §c${callback ? `BACK` : `CLOSE`} §8]`, "textures/blocks/barrier");

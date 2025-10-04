@@ -1,4 +1,4 @@
-import { Dimension, Entity, GameMode, Player, PlayerPermissionLevel, system, Vector3, world } from "@minecraft/server";
+import { Dimension, Entity, EntityEquippableComponent, EquipmentSlot, GameMode, ItemStack, Player, PlayerPermissionLevel, system, Vector3, world } from "@minecraft/server";
 import TapperSkins from "./skins";
 import TapperCapes from "./capes";
 import TapperModels from "./models";
@@ -86,6 +86,76 @@ namespace TapperNPC {
         if (!nameTag.trim()) tapper.nameTag = "";
         tapper.nameTag = nameTag.replaceAll("\\n", "\n");
     }
+
+    export function isLookAtPlayer(tapper: Entity): boolean {
+        return !!tapper.getDynamicProperty("is_look_at_player");
+    }
+
+    export function setLookAtPlayer(tapper: Entity, value?: boolean): void {
+        try {
+            if (value === undefined) value = !isLookAtPlayer(tapper);
+            
+            if (value) tapper.triggerEvent("look_at_player");
+            else tapper.triggerEvent("dont_look_at_player");
+
+            tapper.setDynamicProperty("is_look_at_player", value);
+        } catch(err) {}
+    }
+
+    export function getRotation(tapper: Entity): number {
+        return tapper.getRotation().y;
+    }
+
+    export function setRotation(tapper: Entity, rotation: number): void {
+        try {
+            tapper.setRotation({ y: rotation, x: 0 });
+        } catch(err) {}
+    }
+
+    export function getEquipmentComponent(tapper: Entity): EntityEquippableComponent | undefined {
+        return tapper.getComponent(EntityEquippableComponent.componentId);
+    }
+
+    export function getEquipmentSlot(slot: EquipmentSlot): string {
+        if (slot === EquipmentSlot.Head) return "slot.armor.head";
+        if (slot === EquipmentSlot.Chest) return "slot.armor.chest";
+        if (slot === EquipmentSlot.Legs) return "slot.armor.legs";
+        if (slot === EquipmentSlot.Feet) return "slot.armor.feet";
+        if (slot === EquipmentSlot.Offhand) return "slot.weapon.offhand";
+        return "slot.weapon.mainhand";
+    }
+
+    export function getEquipmentItemId(tapper: Entity, slot: EquipmentSlot): string|undefined {
+        return getEquipmentComponent(tapper)?.getEquipmentSlot(slot).typeId;
+    }
+
+    export function setEquipmentItemId(tapper: Entity, slot: EquipmentSlot, itemId: string): string|undefined {
+        const equipmentSlot = getEquipmentSlot(slot);
+        
+        try {
+            const itemStack = new ItemStack(itemId);
+            
+            tapper.runCommand(`replaceitem entity @s ${equipmentSlot} 0 ${itemStack.typeId}`);
+
+            return itemStack.typeId;
+        } catch(err) {
+            tapper.runCommand(`replaceitem entity @s ${equipmentSlot} 0 air`);
+        }
+    }
+
+    // export function setEquipmentItemId(tapper: Entity, slot: EquipmentSlot, itemId: string): string|undefined {
+    //     const component = getEquipmentComponent(tapper);
+    //     if (!component) throw new Error("Container not found!");
+
+    //     try {
+    //         const itemStack = new ItemStack(itemId);
+    //         component.setEquipment(slot, itemStack);
+
+    //         return itemStack.typeId;
+    //     } catch(err) {
+    //         component.setEquipment(slot);
+    //     }
+    // }
 
     export function getActions(tapper: Entity): TapperAction[] {
         const rawactions = tapper.getDynamicProperty("tappernpc:actions") as string | undefined;

@@ -1,4 +1,4 @@
-import { GameMode, Player, PlayerPermissionLevel, system, world } from "@minecraft/server";
+import { EntityEquippableComponent, EquipmentSlot, GameMode, ItemStack, Player, PlayerPermissionLevel, system, world } from "@minecraft/server";
 import TapperSkins from "./skins";
 import TapperCapes from "./capes";
 import TapperModels from "./models";
@@ -77,6 +77,79 @@ var TapperNPC;
         tapper.nameTag = nameTag.replaceAll("\\n", "\n");
     }
     TapperNPC.setNameTag = setNameTag;
+    function isLookAtPlayer(tapper) {
+        return !!tapper.getDynamicProperty("is_look_at_player");
+    }
+    TapperNPC.isLookAtPlayer = isLookAtPlayer;
+    function setLookAtPlayer(tapper, value) {
+        try {
+            if (value === undefined)
+                value = !isLookAtPlayer(tapper);
+            if (value)
+                tapper.triggerEvent("look_at_player");
+            else
+                tapper.triggerEvent("dont_look_at_player");
+            tapper.setDynamicProperty("is_look_at_player", value);
+        }
+        catch (err) { }
+    }
+    TapperNPC.setLookAtPlayer = setLookAtPlayer;
+    function getRotation(tapper) {
+        return tapper.getRotation().y;
+    }
+    TapperNPC.getRotation = getRotation;
+    function setRotation(tapper, rotation) {
+        try {
+            tapper.setRotation({ y: rotation, x: 0 });
+        }
+        catch (err) { }
+    }
+    TapperNPC.setRotation = setRotation;
+    function getEquipmentComponent(tapper) {
+        return tapper.getComponent(EntityEquippableComponent.componentId);
+    }
+    TapperNPC.getEquipmentComponent = getEquipmentComponent;
+    function getEquipmentSlot(slot) {
+        if (slot === EquipmentSlot.Head)
+            return "slot.armor.head";
+        if (slot === EquipmentSlot.Chest)
+            return "slot.armor.chest";
+        if (slot === EquipmentSlot.Legs)
+            return "slot.armor.legs";
+        if (slot === EquipmentSlot.Feet)
+            return "slot.armor.feet";
+        if (slot === EquipmentSlot.Offhand)
+            return "slot.weapon.offhand";
+        return "slot.weapon.mainhand";
+    }
+    TapperNPC.getEquipmentSlot = getEquipmentSlot;
+    function getEquipmentItemId(tapper, slot) {
+        return getEquipmentComponent(tapper)?.getEquipmentSlot(slot).typeId;
+    }
+    TapperNPC.getEquipmentItemId = getEquipmentItemId;
+    function setEquipmentItemId(tapper, slot, itemId) {
+        const equipmentSlot = getEquipmentSlot(slot);
+        try {
+            const itemStack = new ItemStack(itemId);
+            tapper.runCommand(`replaceitem entity @s ${equipmentSlot} 0 ${itemStack.typeId}`);
+            return itemStack.typeId;
+        }
+        catch (err) {
+            tapper.runCommand(`replaceitem entity @s ${equipmentSlot} 0 air`);
+        }
+    }
+    TapperNPC.setEquipmentItemId = setEquipmentItemId;
+    // export function setEquipmentItemId(tapper: Entity, slot: EquipmentSlot, itemId: string): string|undefined {
+    //     const component = getEquipmentComponent(tapper);
+    //     if (!component) throw new Error("Container not found!");
+    //     try {
+    //         const itemStack = new ItemStack(itemId);
+    //         component.setEquipment(slot, itemStack);
+    //         return itemStack.typeId;
+    //     } catch(err) {
+    //         component.setEquipment(slot);
+    //     }
+    // }
     function getActions(tapper) {
         const rawactions = tapper.getDynamicProperty("tappernpc:actions");
         return rawactions ? JSON.parse(rawactions) : [];

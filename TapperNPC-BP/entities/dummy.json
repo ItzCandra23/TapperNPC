@@ -8,6 +8,13 @@
 			"is_experimental": false
 		},
 		"component_groups": {
+			"look_at_player": {
+				"minecraft:behavior.look_at_player": {
+					"priority": 0,
+					"look_distance": 6.0,
+					"probability": 1
+				}
+			},
 			"model_wide": {
 				"minecraft:scale": {
 					"value": 1
@@ -71,14 +78,9 @@
 				"deals_damage": "no"
 				}
 			},
-			"minecraft:fire_immune": true,
+			"minecraft:fire_immune": {},
 			"minecraft:movement": {
 				"value": 0
-			},
-			"minecraft:behavior.look_at_player": {
-				"priority": 0,
-				"look_distance": 6.0,
-				"probability": 1
 			},
 			"minecraft:persistent": {
 			},
@@ -112,6 +114,12 @@
 			}
 		},
 		"events": {
+			"look_at_player": {
+				"add": { "component_groups": [ "look_at_player" ] }
+			},
+			"dont_look_at_player": {
+				"remove": { "component_groups": [ "look_at_player" ] }
+			},
 			"model_wide": {
 				"add": { "component_groups": [ "model_wide" ] }
 			},
