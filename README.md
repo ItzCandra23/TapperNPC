@@ -57,6 +57,14 @@
   - Add `equipment` option
   - Add `look_at_player` option
   - Add `rotation` option
+  
+- ## TapperNPC v1.4.0
+
+    Updated to the new bedrock version 1.21.120+
+    
+  ### What's Changed
+
+  - Support 1.21.120+
 
 ---
 
